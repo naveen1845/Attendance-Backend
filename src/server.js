@@ -11,7 +11,7 @@ app.listen(PORT, () => {
 })
 
 app.get('/ping', (req, res) => {
-    res.send({message: 'Pong'});
+    res.send({message: 'Pong from attendance App'});
 })
 
 
