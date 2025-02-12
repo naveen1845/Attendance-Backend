@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const facultySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true , ['Faculty name is required']],
+        required: [true , 'Faculty name is required'],
     },
     email: {
         type: String,
