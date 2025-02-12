@@ -1,4 +1,5 @@
 import { facultySignUpService } from "../services/facultyServices.js";
+import { CustomErrorResponse } from "../utils/common/responseObjects.js";
 
 export const facultySignUpController = async (req, res) => {
     try {
@@ -8,7 +9,12 @@ export const facultySignUpController = async (req, res) => {
             data: newfaculty
         })
     } catch (error) {
-        console.log(error);
-        
+        if (error.statusCode) {
+            return res.status(error.statusCode).json(CustomErrorResponse(error));
+        }
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
     }
 }
