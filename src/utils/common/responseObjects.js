@@ -18,3 +18,13 @@ export const CustomErrorResponse = (error) => {
       message: error.message
     };
 };
+
+
+export const successResponse = (data, message) => {
+    return {
+      success: true,
+      message,
+      data,
+      err: {}
+    };
+  };

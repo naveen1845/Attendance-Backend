@@ -1,9 +1,9 @@
 import express from 'express'
 
-import facultyRouter from './facultyRouter.js'
+import userRouter from './userRouter.js'
 
 const router = express.Router();
 
-router.use('/faculty', facultyRouter);
+router.use('/user', userRouter);
 
 export default router
