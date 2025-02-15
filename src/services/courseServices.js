@@ -1,0 +1,41 @@
+
+import { v4 as uuidv4} from "uuid";
+
+import courseRepository from "../repositories/courseRepository.js";
+import ClientError from "../utils/errors/ClientError.js";
+import ValidationError from "../utils/errors/ValidationError.js";
+
+export const createCourseService = async (data, user) => {
+    try {
+        if(user.role !== 'faculty'){
+          throw new ClientError({
+            explanation: 'Only faculty can create a course',
+            message: 'User is not a Faculty'
+          })
+        }
+
+        const code = uuidv4().substring(0, 6).toUpperCase();
+
+        const newCourse = await courseRepository.create({...data, code: code, faculty: user._id})
+        return newCourse
+    } catch (error) {
+        console.log(error);
+        if (error.name === 'ValidationError') {
+            throw new ValidationError(
+              {
+                error: error.errors
+              },
+              error.message
+            );
+          }
+          if (error.name === 'MongoServerError' && error.code === 11000) {
+            throw new ValidationError(
+              {
+                error: ['user with same email already exists']
+              },
+              'user with same email already exists'
+            );
+        }
+        throw error;
+    }
+}
