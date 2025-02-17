@@ -24,6 +24,13 @@ export const isAuth = async (req, res, next) => {
             }))
         }
 
+        if(response.role !== 'faculty'){
+            return res.send(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
+                message: 'Only faculty can add students',
+                explanation: 'Only faculty can add students'
+            }))
+        }
+
         req.user = {
             _id : response._id,
             email: response.email,

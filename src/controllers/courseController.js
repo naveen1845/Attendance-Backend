@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import { createCourseService } from "../services/courseServices.js";
+import { addStudentsToCourseSerivice, createCourseService } from "../services/courseServices.js";
 import { CustomErrorResponse, successResponse } from "../utils/common/responseObjects.js";
 
 export const createCourseController = async (req, res) => {
@@ -12,6 +12,27 @@ export const createCourseController = async (req, res) => {
         }))
     } catch (error) {
         console.log(error);
+        if (error.statusCode) {
+            return res.status(error.statusCode).json(CustomErrorResponse(error));
+        }
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+}
+
+export const addStudentsToCourseController = async (req, res) => {
+    try {
+        
+        const response = await addStudentsToCourseSerivice(req.body.courseId, req.body.studentsIds, req.user);
+        return res.status(StatusCodes.OK).json(successResponse({
+            data: response,
+            message: 'Students added successfully'
+        }))
+    } catch (error) {
+        console.log(error);
+        
         if (error.statusCode) {
             return res.status(error.statusCode).json(CustomErrorResponse(error));
         }

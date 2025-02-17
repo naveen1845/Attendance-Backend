@@ -12,12 +12,13 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api', apiRouter);
+
 app.listen(PORT, () => {
     console.log('App started on port ', PORT);
     connectDB();
 })
 
-app.use('/api', apiRouter);
 
 app.get('/ping', (req, res) => {
     res.send({message: 'Pong from attendance App'});
