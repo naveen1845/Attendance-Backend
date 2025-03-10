@@ -75,3 +75,22 @@ export const addStudentsToCourseSerivice = async (courseId, studentIds, user) =>
     throw error;
   }
 }
+
+
+export const getAllFacultyCoursesService = async (facultyId) => {
+  try {
+    const courses = await courseRepository.getAllFacultyCourses(facultyId);
+    if(!courses){
+      throw new ClientError({
+        message: 'This faculty does not have any courses',
+        explanation: 'This faculty does not have any courses'
+      })
+    }
+
+    return courses;
+
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

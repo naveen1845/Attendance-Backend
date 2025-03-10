@@ -9,7 +9,7 @@ export const isAuth = async (req, res, next) => {
         const token = req.headers['x-access-token']
 
         if (!token) {
-            return res.send(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
+            return res.status(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
                 message: 'No token Provided',
                 explanation: 'Please Provide x-access-token to continue'
             }))
@@ -18,14 +18,14 @@ export const isAuth = async (req, res, next) => {
         const response = jwt.verify(token, JWT_SECRET_KEY);
 
         if (!response) {
-            return res.send(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
+            return res.status(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
                 message: 'Invalid token Provided',
                 explanation: 'Provide a valid token to continue'
             }))
         }
 
         if(response.role !== 'faculty'){
-            return res.send(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
+            return res.status(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
                 message: 'Only faculty can add students',
                 explanation: 'Only faculty can add students'
             }))
@@ -40,7 +40,7 @@ export const isAuth = async (req, res, next) => {
         next();
     } catch (error) {
         if (error.name == 'JsonWebTokenError' || error.name == 'TokenExpiredError') {
-            return res.send(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
+            return res.status(StatusCodes.FORBIDDEN).json(CustomErrorResponse({
                 message: 'Token is expired',
                 explanation: 'Token expired. Please log in again to get a fresh token'
             }))

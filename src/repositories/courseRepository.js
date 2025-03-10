@@ -9,6 +9,12 @@ const courseRepository = {
             $addToSet: { students: { $each: studentIds } }
         })
         return updatedCourse;
+    },
+    getAllFacultyCourses: async (facultyId) => {
+        const courses = await Course.find({
+            "faculty": facultyId
+        })
+        return courses;
     }
 }
 
