@@ -9,3 +9,13 @@ export const createAttendaceService = async (courseId, date, attendanceData) => 
         throw error;
     }
 }
+
+export const getCourseAttendanceRecordsService = async (courseId) => {
+    try {
+        const attendances = await attendanceRespository.getCourseAttendanceRecords(courseId);
+        return attendances;
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
