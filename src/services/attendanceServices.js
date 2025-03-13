@@ -1,8 +1,32 @@
 import attendanceRespository from "../repositories/attendanceRepository.js";
+import { getCourseWithStudentsDetailsService } from "./courseServices.js";
 
-export const createAttendaceService = async (courseId, date, attendanceData) => {
+export const createAttendaceService = async (courseId) => {
     try {
-        const attendance = await attendanceRespository.create({course: courseId, date, students: attendanceData });
+
+        const course = await getCourseWithStudentsDetailsService(courseId);
+        if(!course){
+            throw new ClientError({
+                message: 'This Course doesnt exist',
+                explanation: 'This Course doesnt exist'
+            })
+        }
+
+        if(course.students.length == 0 ){
+            throw new ClientError({
+                message: 'No Students in the course',
+                explanation: 'This Course doesnt exist'
+            })
+        }
+
+        const attendanceData = course.students.map((student) => ({'studentId' : student._id, isPresent: false}))
+
+        console.log("attendance Data", attendanceData);
+        
+
+        const date = new Date();
+        
+        const attendance = await attendanceRespository.create({course: courseId, date: date, students: attendanceData});
         return attendance;
     } catch (error) {
         console.log(error);
@@ -17,5 +41,26 @@ export const getCourseAttendanceRecordsService = async (courseId) => {
     } catch (error) {
         console.log(error);
         throw error
+    }
+}
+
+export const getAttendaceDetailsService = async (attendaceId) => {
+    try {
+        const attendance = await attendanceRespository.getAttendaceDetails(attendaceId)
+        return attendance;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export const updateAttendanceService = async (attendaceId, studentsAttendance) => {
+    try {
+        const updatedAttendace = await attendanceRespository.updateAttendance(attendaceId, studentsAttendance)
+        return updatedAttendace;
+    } catch (error) {
+        console.log(error);
+        throw error;
+        
     }
 }

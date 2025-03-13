@@ -105,6 +105,9 @@ export const getCourseWithStudentsDetailsService = async (courseId) => {
       })
     }
 
+    console.log("getCourseWithStudentsDetailsService", courses);
+    
+
     return courses;
   } catch (error) {
     console.log(error);
