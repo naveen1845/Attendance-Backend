@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', isAuth, createCourseController)
 
-router.post('/addStudents', isAuth, addStudentsToCourseController);
+router.post('/updateStudents', isAuth, addStudentsToCourseController);
 
 router.get('/', isAuth, getAllFacultyCoursesController);
 

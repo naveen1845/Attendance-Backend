@@ -4,10 +4,17 @@ import crudRepository from "./crudRepository.js";
 const courseRepository = {
     ...crudRepository(Course),
 
+    // findByIdAndUpdate: async (courseId, studentIds) => {
+    //     const updatedCourse = await Course.findByIdAndUpdate(courseId, { 
+    //         $addToSet: { students: { $each: studentIds } }   // this line is to add students without creating duplicates. But i also wanted to remove students if required...so rewrote the function below
+    //     })
+    //     return updatedCourse;
+    // },
+
     findByIdAndUpdate: async (courseId, studentIds) => {
         const updatedCourse = await Course.findByIdAndUpdate(courseId, { 
-            $addToSet: { students: { $each: studentIds } }
-        })
+            'students': studentIds   //directly replaces the existing array with new array of ids
+        }, {new: true})
         return updatedCourse;
     },
     getAllFacultyCourses: async (facultyId) => {
@@ -17,7 +24,7 @@ const courseRepository = {
         return courses;
     },
     findByIdWithStudentDetails: async (courseId) => {
-        const course = await Course.findById(courseId).populate('students', 'name email');
+        const course = await Course.findById(courseId).populate('students', 'name email roll_no');
         return course;
     }
 }

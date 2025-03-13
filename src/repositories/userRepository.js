@@ -8,6 +8,12 @@ const userRepository = {
     findByEmail: async ( email ) => {
         const user = await User.findOne({ email });
         return user
+    }, 
+    getAllStudents: async () => {
+        const students = await User.find({
+            'role' : 'student'
+        });
+        return students;
     }
 }
 

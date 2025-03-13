@@ -58,3 +58,21 @@ export const userSignInService = async (data) => {
   }
 
 }
+
+export const getAllStudentsService = async () => {
+  try {
+    const students = await userRepository.getAllStudents();
+
+    if(!students){
+      throw new ClientError({
+        explanation :'There are no students in the system',
+        message :'There are no students in the system'
+      })
+    }
+
+    return students
+  } catch (error) {
+    console.log(error);
+    throw error
+  }
+}
