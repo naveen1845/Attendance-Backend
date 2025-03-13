@@ -15,6 +15,10 @@ const courseRepository = {
             "faculty": facultyId
         })
         return courses;
+    },
+    findByIdWithStudentDetails: async (courseId) => {
+        const course = await Course.findById(courseId).populate('students', 'name email');
+        return course;
     }
 }
 

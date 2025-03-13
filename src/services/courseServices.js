@@ -94,3 +94,20 @@ export const getAllFacultyCoursesService = async (facultyId) => {
     throw error;
   }
 }
+
+export const getCourseWithStudentsDetailsService = async (courseId) => {
+  try {
+    const courses = await courseRepository.findByIdWithStudentDetails(courseId);
+    if(!courses){
+      throw new ClientError({
+        message: 'This Course does not exist',
+        explanation: 'This course does not exist'
+      })
+    }
+
+    return courses;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
