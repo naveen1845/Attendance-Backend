@@ -1,4 +1,5 @@
 import attendanceRespository from "../repositories/attendanceRepository.js";
+import ClientError from "../utils/errors/ClientError.js";
 import { getCourseWithStudentsDetailsService } from "./courseServices.js";
 
 export const createAttendaceService = async (courseId) => {
@@ -34,9 +35,9 @@ export const createAttendaceService = async (courseId) => {
     }
 }
 
-export const getCourseAttendanceRecordsService = async (courseId) => {
+export const getCourseAttendanceRecordsService = async (courseId, startDate, endDate) => {
     try {
-        const attendances = await attendanceRespository.getCourseAttendanceRecords(courseId);
+        const attendances = await attendanceRespository.getCourseAttendanceRecords(courseId, startDate, endDate);
         return attendances;
     } catch (error) {
         console.log(error);

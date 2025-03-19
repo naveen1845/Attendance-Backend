@@ -28,7 +28,7 @@ export const createAttendaceController = async (req, res) => {
 export const getCourseAttendanceRecordsController =  async (req, res) => {
     try {
         const courseId = req.query.courseId;
-        const attendances = await getCourseAttendanceRecordsService(courseId);
+        const attendances = await getCourseAttendanceRecordsService(courseId, req.body.startDate || new Date(0), req.body.endDate || new Date());
         return res.status(StatusCodes.OK).json(successResponse({
             data: attendances,
             message: 'attendances fetched successfully'

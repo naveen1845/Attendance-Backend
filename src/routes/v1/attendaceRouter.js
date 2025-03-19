@@ -11,6 +11,6 @@ router.get('/:attendanceId', isAuth, getAttendaceDetailsController)
 
 router.post('/:attendanceId', isAuth, updateAttendanceController)
 
-router.get('/', isAuth, getCourseAttendanceRecordsController)
+router.post('/', isAuth, getCourseAttendanceRecordsController)
 
 export default router
