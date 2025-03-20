@@ -65,3 +65,13 @@ export const updateAttendanceService = async (attendaceId, studentsAttendance) =
         
     }
 }
+
+export const deleteAttendanceService = async (attendaceId) => {
+    try {
+        const response = await attendanceRespository.delete(attendaceId)
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

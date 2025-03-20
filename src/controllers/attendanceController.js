@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import { createAttendaceService, getAttendaceDetailsService, getCourseAttendanceRecordsService, updateAttendanceService } from "../services/attendanceServices.js";
+import { createAttendaceService, deleteAttendanceService, getAttendaceDetailsService, getCourseAttendanceRecordsService, updateAttendanceService } from "../services/attendanceServices.js";
 import { CustomErrorResponse, successResponse } from "../utils/common/responseObjects.js";
 
 export const createAttendaceController = async (req, res) => {
@@ -81,5 +81,24 @@ export const updateAttendanceController = async (req, res) => {
             message: 'Internal server error'
         });
         
+    }
+}
+
+export const deleteAttendanceController = async (req, res) => {
+    try {
+        const response = await deleteAttendanceService(req.params.attendanceId);
+        return res.status(StatusCodes.OK).json(successResponse({
+            data: response,
+            message: 'attendance Deleted successfully'
+        }))
+    } catch (error) {
+        console.log(error);
+        if (error.statusCode) {
+            return res.status(error.statusCode).json(CustomErrorResponse(error));
+        }
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
     }
 }
